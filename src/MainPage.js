@@ -1,7 +1,12 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
+import Bookshelf from './Bookshelf';
+import BookData from './BookData';
 
 class MainPage extends Component {
+    constructor(){
+        super();
+    }
     render(){
         return(
             <div className="list-books">
@@ -10,6 +15,10 @@ class MainPage extends Component {
                 </div>
                 <div className="list-books-content">
                     <div>
+                        <Bookshelf
+                            title='Currently Reading'
+                            books={BookData.filter(b => b.status === 'currentlyReading')}
+                        />
                         <div className="bookshelf">
                             <h2 className="bookshelf-title">Currently Reading</h2>
                             <div className="bookshelf-books">
