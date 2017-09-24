@@ -2,7 +2,7 @@
  * Created by davidstiennon on 9/23/17.
  */
 import React, {Component} from 'react';
-import BookshelfChanger from './BookshelfChanger'
+import Book from './Book'
 
 class Bookshelf extends Component {
     render() {
@@ -12,23 +12,10 @@ class Bookshelf extends Component {
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {this.props.books.map(book => (
-                            <li key={book.key}>
-                                <div className="book">
-                                    <div className="book-top">
-                                        <div className="book-cover" style={{
-                                            width: 128,
-                                            height: 193,
-                                            backgroundImage: `url("${book.url}")`
-                                        }}></div>
-                                        <BookshelfChanger
-                                            moveBook={this.props.moveBook}
-                                            book={book}
-                                        />
-                                    </div>
-                                    <div className="book-title">{book.title}</div>
-                                    <div className="book-authors">{book.author}</div>
-                                </div>
-                            </li>
+                            <Book key={book.key}
+                                book={book}
+                                moveBook={this.props.moveBook}>
+                            </Book>
                         ))}
 
                     </ol>
