@@ -1,17 +1,16 @@
 import React from 'react'
-//import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 import {Route} from 'react-router-dom'
 import SearchPage from "./SearchPage";
 import MainPage from "./MainPage";
-import {bookData} from './BookData';
 
 
 class BooksApp extends React.Component {
     constructor() {
         super();
         this.state = {
-            bookData: bookData
+            bookData: []
         };
         this.moveBook = this.moveBook.bind(this);
     }
@@ -19,10 +18,31 @@ class BooksApp extends React.Component {
 
     moveBook(book, status) {
         book.status = status;
-        let newData = [...this.state.bookData.filter(b => b.key !== book.key)];
-        this.setState({
-            bookData: [...newData, book]
+        let newData = [...this.state.bookData.filter(b => b.id !== book.id)];
+        BooksAPI.update(book, status).then(res =>{
+            debugger;
+            this.setState({
+                bookData: [...newData, book]
+            })
         })
+    }
+
+    componentDidMount(){
+        BooksAPI.getAll().then(data => {
+            this.setState({
+                bookData: data.map(book => this.parseBook(book))
+            });
+        });
+    }
+
+    parseBook(book){
+        return {
+            title: book.title,
+            author: book.authors && book.authors.join(', '),
+            url: book.imageLinks && book.imageLinks.thumbnail,
+            id: book.id,
+            status: book.shelf
+        }
     }
 
     render() {

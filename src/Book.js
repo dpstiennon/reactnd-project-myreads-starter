@@ -7,7 +7,7 @@ class Book extends Component {
     render() {
         const book = this.props.book;
         return (
-            <li key={book.key}>
+            <li>
                 <div className="book">
                     <div className="book-top">
                         <div className="book-cover" style={{

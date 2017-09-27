@@ -28,7 +28,7 @@ class SearchPage extends Component{
             title: book.title,
             author: book.authors && book.authors.join(', '),
             url: book.imageLinks && book.imageLinks.thumbnail,
-            key: this.getKey(book),
+            id: this.getKey(book),
             status: this.getStatus(book)
         }
     }
@@ -37,7 +37,7 @@ class SearchPage extends Component{
 
     getStatus(book){
         const bookData = this.props.bookData
-            .find(b => b.key === this.getKey(book));
+            .find(b => b.id === this.getKey(book));
         return bookData ? bookData.status : 'none';
     }
 
@@ -46,7 +46,7 @@ class SearchPage extends Component{
         this.setState({
             search: query
         });
-        if(query.length > 3){
+        if(query.length){
             this.fetchBooks(query);
         }
     }
@@ -57,6 +57,7 @@ class SearchPage extends Component{
                     <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper">
                         <input type="text"
+                               autoFocus
                                value={this.state.search}
                                onChange={this.searchChanged.bind(this)}
                                placeholder="Search by title or author"/>
@@ -66,7 +67,9 @@ class SearchPage extends Component{
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.books.map(book => (
-                            <Book book={book} moveBook={this.props.moveBook} key={book.key}/>
+                            <Book key={book.id}
+                                  book={book}
+                                  moveBook={this.props.moveBook}/>
                         ))}
                     </ol>
                 </div>
