@@ -12,22 +12,14 @@ class BooksApp extends React.Component {
         super();
         this.state = {
             bookData: bookData
-        }
+        };
         this.moveBook = this.moveBook.bind(this);
-        this.addBook = this.addBook.bind(this);
     }
 
-    moveBook(book, newStatus) {
-        let newData = [...this.state.bookData];
-        newData.find(b => b.key === book.key).status = newStatus;
-        this.setState({
-            bookData: newData
-        })
-    }
 
-    addBook(book, status) {
+    moveBook(book, status) {
         book.status = status;
-        let newData = [...this.state.bookData.filter(b => b !== book.key)];
+        let newData = [...this.state.bookData.filter(b => b.key !== book.key)];
         this.setState({
             bookData: [...newData, book]
         })
@@ -38,8 +30,7 @@ class BooksApp extends React.Component {
             <div className="app">
                 <Route path="/search" render={() => (
                     <SearchPage bookData={this.state.bookData}
-                                moveBook={this.moveBook}
-                                addBook={this.addBook}/>
+                                moveBook={this.moveBook} />
                 )}/>
 
                 <Route exact path="/" render={() => (
