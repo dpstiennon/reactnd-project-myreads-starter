@@ -14,6 +14,7 @@ class BooksApp extends React.Component {
             bookData: bookData
         }
         this.moveBook = this.moveBook.bind(this);
+        this.addBook = this.addBook.bind(this);
     }
 
     moveBook(book, newStatus) {
@@ -24,12 +25,21 @@ class BooksApp extends React.Component {
         })
     }
 
+    addBook(book, status) {
+        book.status = status;
+        let newData = [...this.state.bookData.filter(b => b !== book.key)];
+        this.setState({
+            bookData: [...newData, book]
+        })
+    }
+
     render() {
         return (
             <div className="app">
                 <Route path="/search" render={() => (
                     <SearchPage bookData={this.state.bookData}
-                                moveBook={this.moveBook}/>
+                                moveBook={this.moveBook}
+                                addBook={this.addBook}/>
                 )}/>
 
                 <Route exact path="/" render={() => (

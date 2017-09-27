@@ -28,9 +28,17 @@ class SearchPage extends Component{
             title: book.title,
             author: book.authors && book.authors.join(', '),
             url: book.imageLinks && book.imageLinks.thumbnail,
-            key: book.industryIdentifiers[0].identifier,
-            status: 'none'
+            key: this.getKey(book),
+            status: this.getStatus(book)
         }
+    }
+
+    getKey = book => book.industryIdentifiers[0].identifier
+
+    getStatus(book){
+        const bookData = this.props.bookData
+            .find(b => b.key === this.getKey(book));
+        return bookData ? bookData.status : 'none';
     }
 
     searchChanged(ev){
@@ -58,7 +66,7 @@ class SearchPage extends Component{
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.books.map(book => (
-                            <Book book={book} moveBook={() => null} key={book.key}/>
+                            <Book book={book} moveBook={this.props.addBook} key={book.key}/>
                         ))}
                     </ol>
                 </div>
