@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Link} from "react-router-dom";
 import * as Api from './BooksAPI';
 import Book from "./Book";
+import {debounce} from 'lodash'
 
 class SearchPage extends Component{
     constructor(){
@@ -10,13 +11,13 @@ class SearchPage extends Component{
             books: [],
             search: ''
         };
-        this.fetchBooks = this.fetchBooks.bind(this);
+        this.fetchBooks = debounce(this.fetchBooks.bind(this), 200);
         this.searchChanged = this.searchChanged.bind(this);
         this.parseBook = this.parseBook.bind(this);
 
     }
     fetchBooks(query){
-        Api.search(query, 20).then(books => {
+        Api.search(query, 1000).then(books => {
             this.setState({books: books.map(b => this.parseBook(b))})
         })
 
@@ -47,14 +48,6 @@ class SearchPage extends Component{
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper">
-                        {/*
-                         NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                         You can find these search terms here:
-                         https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                         However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                         you don't find a specific author or title. Every search is limited by search terms.
-                         */}
                         <input type="text"
                                value={this.state.search}
                                onChange={this.searchChanged.bind(this)}

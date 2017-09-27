@@ -1,27 +1,12 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import Bookshelf from './Bookshelf';
-import {bookData} from './BookData';
+
 
 class MainPage extends Component {
-    constructor() {
-        super();
-        this.state = {
-            bookData: bookData
-        }
-        this.moveBook = this.moveBook.bind(this);
-    }
-
-    moveBook(book, newStatus) {
-        let newData = [...this.state.bookData];
-        newData.find(b => b.key === book.key).status = newStatus;
-        this.setState({
-            bookData: newData
-        })
-    }
-
 
     render() {
+        const props = this.props;
         return(
             <div className="list-books">
                 <div className="list-books-title">
@@ -31,18 +16,18 @@ class MainPage extends Component {
                     <div>
                         <Bookshelf
                             title='Currently Reading'
-                            moveBook={this.moveBook}
-                            books={this.state.bookData.filter(b => b.status === 'currentlyReading')}
+                            moveBook={props.moveBook}
+                            books={props.bookData.filter(b => b.status === 'currentlyReading')}
                         />
                         <Bookshelf
                             title='Want To Read'
-                            moveBook={this.moveBook}
-                            books={this.state.bookData.filter(b => b.status === 'wantToRead')}
+                            moveBook={props.moveBook}
+                            books={props.bookData.filter(b => b.status === 'wantToRead')}
                         />
                         <Bookshelf
                             title="Already Read"
-                            moveBook={this.moveBook}
-                            books={this.state.bookData.filter(b => b.status === 'read')}
+                            moveBook={props.moveBook}
+                            books={props.bookData.filter(b => b.status === 'read')}
                         />
 
                     </div>
