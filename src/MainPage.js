@@ -17,17 +17,17 @@ class MainPage extends Component {
                         <Bookshelf
                             title='Currently Reading'
                             moveBook={props.moveBook}
-                            books={props.bookData.filter(b => b.status === 'currentlyReading')}
+                            books={props.bookData.filter(b => b.shelf === 'currentlyReading')}
                         />
                         <Bookshelf
                             title='Want To Read'
                             moveBook={props.moveBook}
-                            books={props.bookData.filter(b => b.status === 'wantToRead')}
+                            books={props.bookData.filter(b => b.shelf === 'wantToRead')}
                         />
                         <Bookshelf
                             title="Already Read"
                             moveBook={props.moveBook}
-                            books={props.bookData.filter(b => b.status === 'read')}
+                            books={props.bookData.filter(b => b.shelf === 'read')}
                         />
 
                     </div>

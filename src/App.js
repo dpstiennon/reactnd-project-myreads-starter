@@ -17,32 +17,21 @@ class BooksApp extends React.Component {
 
 
     moveBook(book, status) {
-        book.status = status;
+        book.shelf = status;
         let newData = [...this.state.bookData.filter(b => b.id !== book.id)];
-        BooksAPI.update(book, status).then(res =>{
-            debugger;
-            this.setState({
-                bookData: [...newData, book]
-            })
-        })
+        this.setState({
+            bookData: [...newData, book]
+        });
+        //Update the local data first for fast rendering
+        BooksAPI.update(book, status);
     }
 
     componentDidMount(){
         BooksAPI.getAll().then(data => {
             this.setState({
-                bookData: data.map(book => this.parseBook(book))
+                bookData: data
             });
         });
-    }
-
-    parseBook(book){
-        return {
-            title: book.title,
-            author: book.authors && book.authors.join(', '),
-            url: book.imageLinks && book.imageLinks.thumbnail,
-            id: book.id,
-            status: book.shelf
-        }
     }
 
     render() {

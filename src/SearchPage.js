@@ -13,32 +13,19 @@ class SearchPage extends Component{
         };
         this.fetchBooks = debounce(this.fetchBooks.bind(this), 200);
         this.searchChanged = this.searchChanged.bind(this);
-        this.parseBook = this.parseBook.bind(this);
-
     }
+
     fetchBooks(query){
-        Api.search(query, 1000).then(books => {
-            this.setState({books: books.map(b => this.parseBook(b))})
+        Api.search(query, 20).then(books => {
+            books.forEach(book => book.shelf = this.getStatus(book))
+            this.setState({books: books})
         })
-
     }
 
-    parseBook(book){
-        return {
-            title: book.title,
-            author: book.authors && book.authors.join(', '),
-            url: book.imageLinks && book.imageLinks.thumbnail,
-            id: this.getKey(book),
-            status: this.getStatus(book)
-        }
-    }
-
-    getKey = book => book.industryIdentifiers[0].identifier
 
     getStatus(book){
-        const bookData = this.props.bookData
-            .find(b => b.id === this.getKey(book));
-        return bookData ? bookData.status : 'none';
+        const bookData = this.props.bookData.find(b => b.id === book.id);
+        return bookData ? bookData.shelf : 'none';
     }
 
     searchChanged(ev){
