@@ -41,6 +41,7 @@ body, .app {
 }
 .bookshelf-books {
   text-align: center;
+  min-height: 268px;
 }
 
 .open-search {
